@@ -1,9 +1,9 @@
 import streamlit as st
 import pandas as pd
-# Tiêu đề
+
 st.title("QUẢN LÝ ĐIỂM SINH VIÊN")
 
-# Dữ liệu
+# 1. Dữ liệu bảng điểm
 data = {
     'Họ tên': ['An', 'Bình', 'Chi', 'Dũng', 'Hà', 'Lan', 'Minh', 'Nam', 'Phúc', 'Trang'],
     'Chuyên cần': [8.5, 9.0, 7.0, 9.5, 8.0, 6.5, 9.0, 7.5, 8.0, 9.5],
@@ -21,28 +21,25 @@ def xep_loai(d):
 
 df['Xep_loai'] = df['Tong_ket'].apply(xep_loai)
 
-# Bảng điểm
+# 2. Hiển thị bảng điểm
 st.subheader("Bảng điểm")
 st.dataframe(df)
 
-# Thống kê
+# 3. Thống kê
 st.subheader("Thống kê")
 st.write("Điểm trung bình lớp:", round(df['Tong_ket'].mean(), 2))
 st.write("SV cao nhất:", df.loc[df['Tong_ket'].idxmax()]['Họ tên'])
 st.write("SV thấp nhất:", df.loc[df['Tong_ket'].idxmin()]['Họ tên'])
 st.write("Số SV đạt:", (df['Tong_ket'] >= 5.0).sum())
 
-# Chọn xem từng SV
+# 4. Xem chi tiết từng sinh viên
 st.subheader("Xem chi tiết sinh viên")
 ten = st.selectbox("Chọn sinh viên:", df['Họ tên'])
 sv = df[df['Họ tên'] == ten].iloc[0]
 st.write(f"Chuyên cần: {sv['Chuyên cần']} | Giữa kỳ: {sv['Giữa kỳ']} | Cuối kỳ: {sv['Cuối kỳ']} | Tổng kết: {sv['Tong_ket']} | Xếp loại: {sv['Xep_loai']}")
 
-# Biểu đồ
-st.subheader("Biểu đồ điểm")
-fig, ax = plt.subplots()
-ax.barh(df['Họ tên'], df['Tong_ket'])
-st.pyplot(fig)
-
-# Thông tin tác giả ở cuối trang
+# 5. Biểu đồ điểm (Dùng biểu đồ cột có sẵn của Streamlit)
+st.subheader("Biểu đồ điểm tổng kết")
+chart_data = df.set_index('Họ tên')['Tong_ket']
+st.bar_chart(chart_data)
 st.caption("Người thực hiện: Hoàng Nguyễn Thế Công - MSSV:030208014434")
