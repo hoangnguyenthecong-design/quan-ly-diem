@@ -41,5 +41,5 @@ st.write(f"Chuyên cần: {sv['Chuyên cần']} | Giữa kỳ: {sv['Giữa kỳ'
 # 5. Biểu đồ điểm (Dùng biểu đồ cột có sẵn của Streamlit)
 st.subheader("Biểu đồ điểm tổng kết")
 chart_data = df.set_index('Họ tên')['Tong_ket']
-st.bar_chart(chart_data)
+st.barh_chart(chart_data)
 st.caption("Người thực hiện: Hoàng Nguyễn Thế Công - MSSV:030208014434")
